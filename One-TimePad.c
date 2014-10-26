@@ -1,13 +1,13 @@
 // One-Time Pad implementation by IvanSarno
-/* input:
-			1)number of char of message, must be %8=0
-			2) c for criptation or d for decriptation
-			3) message in text file 
-			4) key in binary file
-	output:
-			criptomessage in text file
+/*
+input:
+	1) number of characters (multiple of 8) or number of digits to decrypt (multiple of 3 and 8)
+	2)c to encrypt or d to decrypt
+	3)text file with the message
+	4)file with the binary key ( 8 bits per character )
+output:
+	File encrypted (or decrypted ) called output
 */
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,22 +25,28 @@ char *otpcripto(unsigned int *text, unsigned int *key, int numint);
  {
 	 if (argc <3 )
 	 {
- 		printf("error input");
+ 		printf("error input\n");
  		return 0;
  	}
  	FILE *text, *key;
  	text = fopen(argv[3],"r");
  	key = fopen(argv[4],"rb");
-	int num;
-	char comand;
-	sscanf(argv[2],"%c", &comand);
-	sscanf(argv[1],"%d", &num);
-
- 	if(comand == 'c')
- 		criptation(text,key,num);
- 	else if (comand == 'd')
- 			 decriptation(text,key,num);
- 			else printf("error input");
+	int num = atoi(argv[1]);
+	
+	
+ 	if(argv[2][0] == 'c')
+	{
+		if (num%8)
+			printf("error: number of character must be multiple of 8\n");
+		else criptation(text,key,num);
+	}
+	else if (argv[2][0] == 'd')
+ 			 {
+		 		if (num%8 || num%3)
+		 			printf("error: number of digit must be multiple of 8 and 3\n");
+				 else decriptation(text,key,num);
+			 }
+ 		 else printf("error input\n");
 
  	return 0;
 
