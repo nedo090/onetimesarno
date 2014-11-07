@@ -24,5 +24,6 @@ output:
 	file criptato (o decriptato) chiamato output
 	
 :)
+
 Only 64 bit system
 
